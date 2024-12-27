@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "rooms",
+  "info": {
+    "singularName": "room",
+    "pluralName": "rooms",
+    "displayName": "Room"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "maxLength": 16,
+      "minLength": 4
+    },
+    "host": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "stage": {
+      "type": "enumeration",
+      "enum": [
+        "OPEN",
+        "IN_PROGRESS",
+        "CLOSED"
+      ],
+      "default": "OPEN",
+      "required": true
+    }
+  }
+}
