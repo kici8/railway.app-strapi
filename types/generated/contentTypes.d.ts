@@ -6,18 +6,12 @@ export interface ApiRoomRoom extends Struct.CollectionTypeSchema {
     singularName: 'room';
     pluralName: 'rooms';
     displayName: 'Room';
+    description: '';
   };
   options: {
     draftAndPublish: false;
   };
   attributes: {
-    code: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique &
-      Schema.Attribute.SetMinMaxLength<{
-        minLength: 4;
-        maxLength: 16;
-      }>;
     host: Schema.Attribute.Relation<
       'oneToOne',
       'plugin::users-permissions.user'
@@ -25,6 +19,12 @@ export interface ApiRoomRoom extends Struct.CollectionTypeSchema {
     stage: Schema.Attribute.Enumeration<['OPEN', 'IN_PROGRESS', 'CLOSED']> &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'OPEN'>;
+    code: Schema.Attribute.UID &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        minLength: 5;
+        maxLength: 5;
+      }>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;

@@ -4,20 +4,14 @@
   "info": {
     "singularName": "room",
     "pluralName": "rooms",
-    "displayName": "Room"
+    "displayName": "Room",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
-    "code": {
-      "type": "string",
-      "required": true,
-      "unique": true,
-      "maxLength": 16,
-      "minLength": 4
-    },
     "host": {
       "type": "relation",
       "relation": "oneToOne",
@@ -32,6 +26,12 @@
       ],
       "default": "OPEN",
       "required": true
+    },
+    "code": {
+      "type": "uid",
+      "required": true,
+      "maxLength": 5,
+      "minLength": 5
     }
   }
 }
