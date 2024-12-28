@@ -17,13 +17,12 @@ export interface ApiRoomRoom extends Struct.CollectionTypeSchema {
       'plugin::users-permissions.user'
     >;
     stage: Schema.Attribute.Enumeration<['OPEN', 'IN_PROGRESS', 'CLOSED']> &
-      Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'OPEN'>;
-    code: Schema.Attribute.UID &
-      Schema.Attribute.Required &
+    code: Schema.Attribute.String &
+      Schema.Attribute.Unique &
       Schema.Attribute.SetMinMaxLength<{
         minLength: 5;
-        maxLength: 5;
+        maxLength: 10;
       }>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;

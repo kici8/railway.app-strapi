@@ -25,12 +25,12 @@
         "CLOSED"
       ],
       "default": "OPEN",
-      "required": true
+      "required": false
     },
     "code": {
-      "type": "uid",
-      "required": true,
-      "maxLength": 5,
+      "type": "string",
+      "unique": true,
+      "maxLength": 10,
       "minLength": 5
     }
   }
