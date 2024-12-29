@@ -1,20 +1,43 @@
-// import type { Core } from '@strapi/strapi';
+import { Core } from "@strapi/strapi";
+import { Server as SocketServer } from "socket.io";
+import { emitEvent, AfterCreateEvent } from "./utils/emitEvent";
+
+interface SocketConfig {
+  cors: {
+    origin: string | string[];
+    methods: string[];
+  };
+}
 
 export default {
-  /**
-   * An asynchronous register function that runs before
-   * your application is initialized.
-   *
-   * This gives you an opportunity to extend code.
-   */
-  register(/* { strapi }: { strapi: Core.Strapi } */) {},
+  register({ strapi }: { strapi: Core.Strapi }) {
+    const socketConfig = strapi.config.get("socket.config") as SocketConfig;
 
-  /**
-   * An asynchronous bootstrap function that runs before
-   * your application gets started.
-   *
-   * This gives you an opportunity to set up your data model,
-   * run jobs, or perform some special logic.
-   */
-  bootstrap(/* { strapi }: { strapi: Core.Strapi } */) {},
+    // TODO: this throw an error -- no socketConfig
+    if (!socketConfig) {
+      strapi.log.error("Invalid Socket.IO configuration");
+      return;
+    }
+
+    strapi.server.httpServer.on("listening", () => {
+      const io = new SocketServer(strapi.server.httpServer, {
+        cors: socketConfig.cors,
+      });
+
+      (strapi as any).io = io;
+      strapi.eventHub.emit("socket.ready");
+    });
+  },
+
+  bootstrap({ strapi }: { strapi: Core.Strapi }) {
+    const socketService = strapi.service("api::socket.socket") as {
+      initialize: () => void;
+    };
+
+    if (socketService && typeof socketService.initialize === "function") {
+      socketService.initialize();
+    } else {
+      strapi.log.error("Socket service or initialize method not found");
+    }
+  },
 };
