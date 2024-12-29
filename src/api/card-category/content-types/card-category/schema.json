@@ -1,0 +1,21 @@
+{
+  "kind": "collectionType",
+  "collectionName": "card_categories",
+  "info": {
+    "singularName": "card-category",
+    "pluralName": "card-categories",
+    "displayName": "Card category"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "maxLength": 150,
+      "required": true,
+      "unique": true
+    }
+  }
+}

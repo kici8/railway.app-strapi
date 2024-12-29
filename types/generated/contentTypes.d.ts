@@ -1,42 +1,5 @@
 import type { Struct, Schema } from '@strapi/strapi';
 
-export interface ApiRoomRoom extends Struct.CollectionTypeSchema {
-  collectionName: 'rooms';
-  info: {
-    singularName: 'room';
-    pluralName: 'rooms';
-    displayName: 'Room';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    host: Schema.Attribute.Relation<
-      'oneToOne',
-      'plugin::users-permissions.user'
-    >;
-    stage: Schema.Attribute.Enumeration<['OPEN', 'IN_PROGRESS', 'CLOSED']> &
-      Schema.Attribute.DefaultTo<'OPEN'>;
-    code: Schema.Attribute.String &
-      Schema.Attribute.Unique &
-      Schema.Attribute.SetMinMaxLength<{
-        minLength: 5;
-        maxLength: 10;
-      }>;
-    createdAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    publishedAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::room.room'> &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface PluginUploadFile extends Struct.CollectionTypeSchema {
   collectionName: 'files';
   info: {
@@ -532,6 +495,180 @@ export interface PluginUsersPermissionsUser
   };
 }
 
+export interface ApiCardCard extends Struct.CollectionTypeSchema {
+  collectionName: 'cards';
+  info: {
+    singularName: 'card';
+    pluralName: 'cards';
+    displayName: 'Card';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    image: Schema.Attribute.Media<'images' | 'files'> &
+      Schema.Attribute.Required;
+    description: Schema.Attribute.Text &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }>;
+    card_category: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::card-category.card-category'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::card.card'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiCardCategoryCardCategory
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'card_categories';
+  info: {
+    singularName: 'card-category';
+    pluralName: 'card-categories';
+    displayName: 'Card category';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 150;
+      }>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::card-category.card-category'
+    > &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiCardInteractionCardInteraction
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'card_interactions';
+  info: {
+    singularName: 'card-interaction';
+    pluralName: 'card-interactions';
+    displayName: 'Card interaction';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    card: Schema.Attribute.Relation<'oneToOne', 'api::card.card'>;
+    liked: Schema.Attribute.Boolean & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::card-interaction.card-interaction'
+    > &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiParticipantParticipant extends Struct.CollectionTypeSchema {
+  collectionName: 'participants';
+  info: {
+    singularName: 'participant';
+    pluralName: 'participants';
+    displayName: 'Participant';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    Nickname: Schema.Attribute.String;
+    card_interactions: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::card-interaction.card-interaction'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::participant.participant'
+    > &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiRoomRoom extends Struct.CollectionTypeSchema {
+  collectionName: 'rooms';
+  info: {
+    singularName: 'room';
+    pluralName: 'rooms';
+    displayName: 'Room';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    host: Schema.Attribute.Relation<
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    stage: Schema.Attribute.Enumeration<['OPEN', 'IN_PROGRESS', 'CLOSED']> &
+      Schema.Attribute.DefaultTo<'OPEN'>;
+    code: Schema.Attribute.String &
+      Schema.Attribute.Unique &
+      Schema.Attribute.SetMinMaxLength<{
+        minLength: 5;
+        maxLength: 10;
+      }>;
+    participants: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::participant.participant'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::room.room'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface AdminPermission extends Struct.CollectionTypeSchema {
   collectionName: 'admin_permissions';
   info: {
@@ -904,7 +1041,6 @@ export interface AdminTransferTokenPermission
 declare module '@strapi/strapi' {
   export module Public {
     export interface ContentTypeSchemas {
-      'api::room.room': ApiRoomRoom;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::i18n.locale': PluginI18NLocale;
@@ -915,6 +1051,11 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::card.card': ApiCardCard;
+      'api::card-category.card-category': ApiCardCategoryCardCategory;
+      'api::card-interaction.card-interaction': ApiCardInteractionCardInteraction;
+      'api::participant.participant': ApiParticipantParticipant;
+      'api::room.room': ApiRoomRoom;
       'admin::permission': AdminPermission;
       'admin::user': AdminUser;
       'admin::role': AdminRole;

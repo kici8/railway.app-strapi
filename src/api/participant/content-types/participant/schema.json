@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "participants",
+  "info": {
+    "singularName": "participant",
+    "pluralName": "participants",
+    "displayName": "Participant",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Nickname": {
+      "type": "string"
+    },
+    "card_interactions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::card-interaction.card-interaction"
+    }
+  }
+}

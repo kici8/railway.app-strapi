@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "cards",
+  "info": {
+    "singularName": "card",
+    "pluralName": "cards",
+    "displayName": "Card",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "description": {
+      "type": "text",
+      "maxLength": 300
+    },
+    "card_category": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::card-category.card-category"
+    }
+  }
+}

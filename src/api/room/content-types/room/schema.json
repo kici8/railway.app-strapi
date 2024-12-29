@@ -32,6 +32,11 @@
       "unique": true,
       "maxLength": 10,
       "minLength": 5
+    },
+    "participants": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::participant.participant"
     }
   }
 }
