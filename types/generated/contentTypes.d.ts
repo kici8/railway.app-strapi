@@ -517,6 +517,12 @@ export interface ApiCardCard extends Struct.CollectionTypeSchema {
       'oneToOne',
       'api::card-category.card-category'
     >;
+    Title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -537,6 +543,7 @@ export interface ApiCardCategoryCardCategory
     singularName: 'card-category';
     pluralName: 'card-categories';
     displayName: 'Card category';
+    description: '';
   };
   options: {
     draftAndPublish: false;
@@ -546,7 +553,7 @@ export interface ApiCardCategoryCardCategory
       Schema.Attribute.Required &
       Schema.Attribute.Unique &
       Schema.Attribute.SetMinMaxLength<{
-        maxLength: 150;
+        maxLength: 300;
       }>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
@@ -559,6 +566,44 @@ export interface ApiCardCategoryCardCategory
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::card-category.card-category'
+    > &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiCardCollectionCardCollection
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'card_collections';
+  info: {
+    singularName: 'card-collection';
+    pluralName: 'card-collections';
+    displayName: 'Card collection';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    image: Schema.Attribute.Media<'images' | 'files'> &
+      Schema.Attribute.Required;
+    cards: Schema.Attribute.Relation<'oneToMany', 'api::card.card'>;
+    title: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::card-collection.card-collection'
     > &
       Schema.Attribute.Private;
   };
@@ -1053,6 +1098,7 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::card.card': ApiCardCard;
       'api::card-category.card-category': ApiCardCategoryCardCategory;
+      'api::card-collection.card-collection': ApiCardCollectionCardCollection;
       'api::card-interaction.card-interaction': ApiCardInteractionCardInteraction;
       'api::participant.participant': ApiParticipantParticipant;
       'api::room.room': ApiRoomRoom;

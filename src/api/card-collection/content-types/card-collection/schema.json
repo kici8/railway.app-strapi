@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "cards",
+  "collectionName": "card_collections",
   "info": {
-    "singularName": "card",
-    "pluralName": "cards",
-    "displayName": "Card",
+    "singularName": "card-collection",
+    "pluralName": "card-collections",
+    "displayName": "Card collection",
     "description": ""
   },
   "options": {
@@ -21,16 +21,12 @@
         "files"
       ]
     },
-    "description": {
-      "type": "text",
-      "maxLength": 300
-    },
-    "card_category": {
+    "cards": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::card-category.card-category"
+      "relation": "oneToMany",
+      "target": "api::card.card"
     },
-    "Title": {
+    "title": {
       "type": "string",
       "required": true,
       "maxLength": 300,

@@ -4,7 +4,8 @@
   "info": {
     "singularName": "card-category",
     "pluralName": "card-categories",
-    "displayName": "Card category"
+    "displayName": "Card category",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -13,7 +14,7 @@
   "attributes": {
     "title": {
       "type": "string",
-      "maxLength": 150,
+      "maxLength": 300,
       "required": true,
       "unique": true
     }
